@@ -14,7 +14,7 @@ extern "C" {
 
 class BaseChannel {
 public:
-    BaseChannel(int id) : id(id) {
+    BaseChannel(int id, AVCodecContext *avCodecContext) : id(id), avCodecContext(avCodecContext) {
         packets.setReleaseCallback(releaseAVPacket);
         frames.setReleaseCallback(releaseAVFrame);
     }
@@ -55,6 +55,8 @@ public:
     SafeQueue<AVPacket *> packets;
     SafeQueue<AVFrame *> frames;
     int id;
-
+    bool isPlaying;
+    AVCodecContext *avCodecContext;
 };
+
 #endif //NDKDEMO_BASECHANNEL_H

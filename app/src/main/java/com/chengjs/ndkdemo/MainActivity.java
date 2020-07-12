@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -14,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SurfaceView surfaceView;
-    private NEPlayer player;
+    //    private NEPlayer player;
+    private MyPlayer myPlayer = new MyPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +24,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         surfaceView = findViewById(R.id.surfaceView);
-        player = new NEPlayer();
-        player.setDataSource(new File(Environment.getExternalStorageDirectory() + File.separator + "input.mp4").getAbsolutePath());
-        player.setOnPreparedListener(new NEPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, "开始播放", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                player.start();
-            }
-        });
+        myPlayer.setSurface(surfaceView);
+//        player = new NEPlayer();
+//        player.setDataSource(new File(Environment.getExternalStorageDirectory() + File.separator + "input.mp4").getAbsolutePath());
+//        player.setOnPreparedListener(new NEPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(MainActivity.this, "开始播放", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                player.start();
+//            }
+//        });
     }
 
     /**
@@ -44,9 +47,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        player.prepare();
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        player.prepare();
+//    }
+
+    public void start(View view) {
+        myPlayer.start(new File(Environment.getExternalStorageDirectory() + File.separator + "input.mp4").getAbsolutePath());
     }
 }

@@ -10,11 +10,19 @@
 
 class VideoChannel : public BaseChannel {
 public:
-    VideoChannel(int id);
+    VideoChannel(int id, AVCodecContext *avCodecContext);
 
      ~VideoChannel();
     void start();
     void stop();
+
+    void video_decode();
+
+    void video_play();
+
+private:
+    pthread_t  pid_video_decode;
+    pthread_t  pid_video_play;
 };
 
 

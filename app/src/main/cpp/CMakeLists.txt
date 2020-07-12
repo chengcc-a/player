@@ -16,4 +16,5 @@ target_link_libraries(
         -Wl,--end-group
         ${log-lib}
         log
-        z)
+        z
+        android)

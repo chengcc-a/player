@@ -73,9 +73,9 @@ void NEFFmpeg::_prepare() {
         }
 
         if (codecParameters->codec_type == AVMEDIA_TYPE_VIDEO) {
-            videoChannel = new VideoChannel(i);
+            videoChannel = new VideoChannel(i, avCodecContext);
         } else if (codecParameters->codec_type == AVMEDIA_TYPE_AUDIO) {
-            audioChannel = new AudioChannel(i);
+            audioChannel = new AudioChannel(i, avCodecContext);
         }
 
         if (!audioChannel && !videoChannel) {
@@ -94,6 +94,7 @@ void NEFFmpeg::prepare() {
 
 void NEFFmpeg::start() {
     isPlaying = true;
+    videoChannel->start();
     pthread_create(&pid_start, 0, task_start, this);
 }
 
@@ -104,13 +105,14 @@ void NEFFmpeg::_start() {
         if (!ret) {
             if (videoChannel && avPacket->stream_index == videoChannel->id) {
                 videoChannel->packets.push(avPacket);
-            } else if (audioChannel&&avPacket->stream_index==audioChannel->id){}
-        } else if (ret==AVERROR_EOF){} else{
+            } else if (audioChannel && avPacket->stream_index == audioChannel->id) {}
+        } else if (ret == AVERROR_EOF) {}
+        else {
             LOGE("读取数据包出错");
             break;
         }
     }
-    isPlaying=0;
+    isPlaying = 0;
 }
 
 

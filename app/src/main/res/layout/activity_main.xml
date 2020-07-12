@@ -9,7 +9,13 @@
     <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-       />
+        android:layout_height="300dp" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/surfaceView"
+        android:gravity="center"
+        android:onClick="start"
+        android:text="play" />
 </RelativeLayout>
